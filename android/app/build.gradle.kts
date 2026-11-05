@@ -67,6 +67,19 @@ android {
             )
         }
     }
+
+    // Hard strip non-arm64 shared objects at packaging time. ndk.abiFilters
+    // alone leaves tiny dependency bombs (libdatastore_shared_counter.so)
+    // behind for every ABI, enabling installs that would crash on launch.
+    packaging {
+        jniLibs {
+            excludes += setOf(
+                "lib/armeabi-v7a/**",
+                "lib/x86/**",
+                "lib/x86_64/**",
+            )
+        }
+    }
 }
 
 flutter {
