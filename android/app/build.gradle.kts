@@ -38,6 +38,12 @@ android {
         targetSdk = flutter.targetSdkVersion
         versionCode = flutter.versionCode
         versionName = flutter.versionName
+        // 64-bit only, matching the CI build target (android-arm64).
+        // Without this, dependency .so blobs (e.g. androidx datastore)
+        // get packaged for every ABI Flutter doesn't restrict.
+        ndk {
+            abiFilters += setOf("arm64-v8a")
+        }
     }
 
     signingConfigs {
